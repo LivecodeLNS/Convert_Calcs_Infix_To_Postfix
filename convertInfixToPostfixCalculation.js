@@ -22,9 +22,17 @@ process.openStdin().addListener("data", data => {
 */
 log("INGRESE EL CALCULO en la siguiente linea:");
 process.openStdin().addListener("data", prepareCalc);
+
 function prepareCalc(calcInput) {
     // CONVERT STRING AND DELETE SPACES WITH RegExp!
     // NEW LET DATA WILL BE ARRAY FILTERED!
+
+    //RegExp (?![\d()[\]{}.+\-*/^]). TODO AQUEL CARÁCTER NO SEA PARA CALCULOS
+    const haveLetters = calcInput.toString().match(/(?![\d()[\]{}.+\-*/^])./gi);
+    if (haveLetters) {
+        log('ESTÁ PROHIBIDO LOS CARACTERES ALFABÉTICOS.');
+        process.exit();
+    };
     calcInput = calcInput
         .toString()
         .replaceAll(/\s/gi, '')
